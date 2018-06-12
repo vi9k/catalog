@@ -21,9 +21,9 @@ OAuth
 
 3. Create a empty database by running the command 'python database_setup.py' in terminal.
 
-4. To add data to our database, run the command 'python lotsofmenus.py'
+4. To add data to our database, run the command 'python data.py'
 
-5. To intialize server, run 'python setup.py'.
+5. To intialize server, run 'python main.py'.
 
 6. After running server, visit the following url to browse Restaurants app in browser 'https://localhost:8888'
 
