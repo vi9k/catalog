@@ -28,3 +28,5 @@ OAuth
 6. After running server, visit the following url to browse Restaurants app in browser 'https://localhost:8888'
 
 7. Sign into with google id and then you will find Restaurants data driven webapp.
+
+8. Wait for few secs to redirect into main app.
