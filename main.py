@@ -1,4 +1,10 @@
-from flask import Flask, render_template, request, redirect, jsonify, url_for, flash
+from flask import (Flask, 
+                   render_template, 
+                   request, 
+                   redirect, 
+                   jsonify, 
+                   url_for, 
+                   flash)
 from sqlalchemy import create_engine, asc
 from sqlalchemy.orm import sessionmaker
 from database_setup import Base, Restaurant, MenuItem, User
@@ -155,7 +161,10 @@ def gconnect():
     output += '!</h1>'
     output += '<img src="'
     output += login_session['picture']
-    output += ' " style = "width: 300px; height: 300px;border-radius: 150px;-webkit-border-radius: 150px;-moz-border-radius: 150px;"> '
+    output += ' " style = "width: 300px; \
+                height: 300px;border-radius: 150px;\
+                -webkit-border-radius: 150px;\
+                    -moz-border-radius: 150px;"> '
     flash("you are now logged in as %s" % login_session['username'])
     return output
 
@@ -281,12 +290,12 @@ def newRestaurant():
 
 @app.route('/restaurant/<int:restaurant_id>/edit/', methods=['GET', 'POST'])
 def editRestaurant(restaurant_id):
-    DBSession = sessionmaker(bind=engine)
-    session = DBSession()
+        DBSession = sessionmaker(bind=engine)
+        session = DBSession()
+        if 'username' not in login_session:
+        return redirect('/login')
     editedRestaurant = session.query(
         Restaurant).filter_by(id=restaurant_id).one()
-    if 'username' not in login_session:
-        return redirect('/login')
     if editedRestaurant.user_id != login_session['user_id']:
         return """<script>function myFunction() {alert('You are not
          authorized to edit this restaurant. Please create your own restaurant
@@ -348,12 +357,18 @@ def newMenuItem(restaurant_id):
         return redirect('/login')
     restaurant = session.query(Restaurant).filter_by(id=restaurant_id).one()
     if login_session['user_id'] != restaurant.user_id:
-        return """<script>function myFunction() {alert('You are not authorized to add menu items
-         to this restaurant. Please create your own restaurant in
-          order to add items.');}</script><body onload='myFunction()''>"""
+        return """<script>function myFunction()
+                {alert('You are not authorized to add menu items
+                to this restaurant. Please create your own restaurant in
+                order to add items.');}</script><body onload='myFunction()''>"""
     if request.method == 'POST':
-        newItem = MenuItem(name=request.form['name'], description=request.form['description'], price=request.form[
-                           'price'], course=request.form['course'], restaurant_id=restaurant_id, user_id=restaurant.user_id)
+        newItem = MenuItem(name=request.form['name'],
+                           description=request.form['description'],
+                           price=request.form[
+                           'price'],
+                           course=request.form['course']
+                           , restaurant_id=restaurant_id,
+                           user_id=restaurant.user_id)
         session.add(newItem)
         session.commit()
         flash('New Menu %s Item Successfully Created' % (newItem.name))
